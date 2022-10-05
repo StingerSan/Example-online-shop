@@ -1,8 +1,10 @@
 const path = require("path");
 
 const express = require("express");
+const csrf = require('csurf');
 
 const db = require('./data/database');
+const addCsrfTokenMiddlewaree = require('./middlewares/csrf-token');
 const authRoutes = require("./routes/auth.routes");
 
 const app = express();
@@ -13,12 +15,16 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static('public'));
 app.use(express.urlencoded({extended: false}));
 
+app.use(csrf());
+
+app.use(addCsrfTokenMiddlewaree);
+
 app.use(authRoutes);
 
 db.connectToDatabase().then(function() {
     app.listen(3000);
 }).catch(function(error) {
-    console.log('Failer to connect to the database!');
+    console.log('Failed to connect to the database!');
     console.log(error);
 });
 
