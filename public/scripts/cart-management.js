@@ -8,15 +8,15 @@ async function addToCart() {
     let response;
     try {
         response = await fetch('/cart/items', {
-        method: 'POST',
-        body: JSON.stringify({
-            productId: productId,
-            _csrf: csrfToken
-        }),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
+            method: 'POST',
+            body: JSON.stringify({
+                productId: productId,
+                _csrf: csrfToken
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
     } catch (error)     {
         alert('Something went wrong!');
         return;
