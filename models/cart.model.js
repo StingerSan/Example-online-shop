@@ -26,7 +26,7 @@ class Cart {
         }
         this.items.push(cartItem);
         this.totalQuantity++;
-        this.totalPrice += this.totalPrice + product.price;
+        this.totalPrice += product.price;
     }
 
     updateItem(productId, newQuantity) {
@@ -40,11 +40,12 @@ class Cart {
                 cartItem.totalPrice = newQuantity * item.product.price;
                 this.items[i] = cartItem;
 
-                this.totalQuantity = this.totalQuantity + quantityChange
+                this.totalQuantity = this.totalQuantity + quantityChange;
                 this.totalPrice += quantityChange * item.product.price;
                 return { updatedItemPrice: cartItem.totalPrice };
+
             }else if (item.product.id === productId && newQuantity <= 0) {
-                this.item.splice(i, 1);
+                this.items.splice(i, 1);
                 this.totalQuantity = this.totalQuantity - item.quantity;
                 this.totalPrice -= item.totalPrice;
                 return { updatedItemPrice: 0 };

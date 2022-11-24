@@ -36,10 +36,12 @@ async function updateCartItem(event) {
     
     const responseData = await response.json();
 
-    console.log(responseData);
-
-    const cartItemTotalPriceElement = form.parentElement.querySelector('.cart-item-price');
-    cartItemTotalPriceElement.textContent = responseData.updatedCartData.updatedItemPrice.toFixed(2);
+    if (responseData.updatedCartData.updatedItemPrice === 0) {
+        form.parentElement.parentElement.remove();
+    } else {
+        const cartItemTotalPriceElement = form.parentElement.querySelector('.cart-item-price');
+        cartItemTotalPriceElement.textContent = responseData.updatedCartData.updatedItemPrice.toFixed(2);
+    }
 
     cartTotalPriceElement.textContent = responseData.updatedCartData.newTotalPrice.toFixed(2);
 
