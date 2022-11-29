@@ -1,6 +1,9 @@
+const mongodb = require("mongodb");
+
 const db = require("../data/database");
 
 class Order {
+  // Status => pending, fulfilled, cancelled
   constructor(cart, userData, status = "pending", date, orderId) {
     this.productData = cart;
     this.userData = userData;
@@ -66,6 +69,11 @@ class Order {
 
   save() {
     if (this.id) {
+      const orderId = new mongodb.ObjectId(this.id);
+      return db
+        .getDb()
+        .collection("orders")
+        .updateOne({ _id: orderId }, { $set: { status: this.status } });
     } else {
       const orderDocument = {
         userData: this.userData,
@@ -74,7 +82,7 @@ class Order {
         status: this.status,
       };
 
-      return db.getDb().collections("orders").insertOne(orderDocument);
+      return db.getDb().collection("orders").insertOne(orderDocument);
     }
   }
 }
